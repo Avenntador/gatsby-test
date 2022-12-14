@@ -4,30 +4,42 @@ import Layout from "../components/layout";
 import Seo from "../components/seo";
 
 type DataProps = {
-  allFile: {
+  allMdx: {
     nodes: {
-      name: string;
+      frontmatter: {
+        title: string;
+        date: string;
+      };
+      id: string;
+      excerpt: string;
     }[];
   };
 };
 
-const BlogPage = ({ data: { allFile } }: PageProps<DataProps>) => {
+const BlogPage = ({ data: { allMdx } }: PageProps<DataProps>) => {
   return (
     <Layout pageTitle="My Blog Posts">
-      <ul>
-        {allFile.nodes.map((node) => (
-          <li key={node.name}>{node.name}</li>
-        ))}
-      </ul>
+      {allMdx.nodes.map((node) => (
+        <article key={node.id}>
+          <h2>{node.frontmatter.title}</h2>
+          <p>Posted: {node.frontmatter.date}</p>
+          <p>{node.excerpt}</p>
+        </article>
+      ))}
     </Layout>
   );
 };
 
 export const query = graphql`
   query {
-    allFile {
+    allMdx(sort: { frontmatter: { date: DESC } }) {
       nodes {
-        name
+        frontmatter {
+          date(formatString: "MMMM D, YYYY")
+          title
+        }
+        id
+        excerpt
       }
     }
   }
