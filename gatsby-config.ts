@@ -12,6 +12,8 @@ const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
+    "gatsby-plugin-mdx",
+    "gatsby-transformer-sharp",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -19,7 +21,6 @@ const config: GatsbyConfig = {
         path: `${__dirname}/blog`,
       },
     },
-    "gatsby-plugin-mdx",
   ],
 };
 
